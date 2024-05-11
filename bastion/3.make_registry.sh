@@ -5,6 +5,10 @@
 # Check Current Path
 echo $CURRENTPATH
 
+
+# if DockerRegistry
+if [ "$SRC_REGISTRY_TYPE" == "DockerRegistry" ]; then
+	
 # make directories
 mkdir -p $SRC_REGISTRY_BASE/{auth,certs,data,tools}
 
@@ -58,7 +62,38 @@ chmod +x $SRC_REGISTRY_BASE/tools/start_registry.sh
 $SRC_REGISTRY_BASE/tools/start_registry.sh
 
 
+# if ProjectQUAY	
+elif [ "$SRC_REGISTRY_TYPE" == "ProjectQUAY" ]; then 
 
+
+# make directories
+mkdir -p $SRC_REGISTRY_BASE/certs
+
+
+# create cert
+openssl genrsa -out $SRC_REGISTRY_BASE/certs/rootCA.key 4096
+
+openssl req -x509 -new -nodes -key $SRC_REGISTRY_BASE/certs/rootCA.key -sha256 -days 36500 -out $SRC_REGISTRY_BASE/certs/rootCA.crt -subj "/CN=Private CA"
+
+openssl req -addext "subjectAltName=DNS:$SRC_REGISTRY" -new -nodes -out $SRC_REGISTRY_BASE/certs/server-registry.csr -keyout $SRC_REGISTRY_BASE/certs/server-registry.key -subj "/CN=$SRC_REGISTRY"
+
+cat > $SRC_REGISTRY_BASE/certs/server.ext << EOF
+subjectAltName = @alt_names
+
+[alt_names]
+DNS = $SRC_REGISTRY
+EOF
+
+openssl x509 -req -in $SRC_REGISTRY_BASE/certs/server-registry.csr -CA $SRC_REGISTRY_BASE/certs/rootCA.crt -CAkey $SRC_REGISTRY_BASE/certs/rootCA.key -CAcreateserial -out $SRC_REGISTRY_BASE/certs/server-registry.crt -days 36500 -extfile $SRC_REGISTRY_BASE/certs/server.ext
+
+cat $SRC_REGISTRY_BASE/certs/server-registry.crt $SRC_REGISTRY_BASE/certs/rootCA.crt > $SRC_REGISTRY_BASE/certs/fullchain-registry.crt
+
+# copy cert and update-ca-trust
+cp $SRC_REGISTRY_BASE/certs/rootCA.crt /etc/pki/ca-trust/source/anchors/
+update-ca-trust extract
+
+
+fi
 
 
 # test tmp_registry

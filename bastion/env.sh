@@ -5,15 +5,17 @@ packages=(git httpd httpd-tools podman haproxy bind bind-utils jq wget net-tools
 
 # Environment for registry
 CURRENTPATH=$(pwd)
+## Registry Type (DockerRegistry ProjectQUAY)
+SRC_REGISTRY_TYPE=ProjectQUAY
 ## Registry Base Path
-SRC_REGISTRY_BASE=/REG
+SRC_REGISTRY_BASE=/app/quay
 ## Registry Domain Name for create Certificate
-SRC_REGISTRY=bastion.okd4.kcb.home
+SRC_REGISTRY=container-registry.kcbcore.com
 ## Registry Authentication Information
 SRC_REGISTRY_ID=admin
-SRC_REGISTRY_PASS=opennaru
+SRC_REGISTRY_PASS=Rkakrnl.47$
 ## Registry Listen Port (for Host, not container listen port)
-SRC_REGISTRY_PORT=5000
+SRC_REGISTRY_PORT=443
 
 # Environment for DNS, haproxy
 ## Bastion IP
