@@ -57,6 +57,10 @@ chmod +x $SRC_REGISTRY_BASE/tools/start_registry.sh
 # run registry
 $SRC_REGISTRY_BASE/tools/start_registry.sh
 
+
+
+
+
 # test tmp_registry
 sleep 2
 echo -e "\n test registry"
