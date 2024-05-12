@@ -6,6 +6,17 @@
 echo $CURRENTPATH
 
 
+# Get the current user
+current_user=$(whoami)
+
+# Check if the current user is root
+if [ "$current_user" != "root" ]; then
+
+mkdir -p ~/.config/containers && echo -e "[containers]\nlog_size_max=10485760" >> ~/.config/containers/containers.conf
+
+fi
+
+
 # if DockerRegistry
 if [ "$SRC_REGISTRY_TYPE" == "DockerRegistry" ]; then
 	
@@ -218,6 +229,8 @@ USER_EVENTS_REDIS:
 USER_RECOVERY_TOKEN_LIFETIME: 30m
 USERFILES_LOCATION: default
 EOF
+
+chmod a+x -R $SRC_REGISTRY_BASE/config
 
 
 podman run -p 443:8443 --name=quay -v $SRC_REGISTRY_BASE/config:/conf/stack:Z -v $SRC_REGISTRY_BASE/storage:/datastorage:Z -d quay.io/projectquay/quay:3.8.2

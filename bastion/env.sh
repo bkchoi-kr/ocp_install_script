@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Environment for package check
-packages=(git httpd httpd-tools podman haproxy bind bind-utils jq wget net-tools vim telnet nmap-ncat unzip telnet chronyd nfs-utils)
+packages=(git httpd httpd-tools podman haproxy bind bind-utils jq wget net-tools telnet nmap-ncat unzip telnet chrony nfs-utils)
 
 # Environment for registry
 CURRENTPATH=$(pwd)
