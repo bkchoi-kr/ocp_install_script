@@ -1,6 +1,5 @@
 #!/bin/bash
 
-. ../bastion/env.sh
 . env.sh
 
 if command -v oc-mirror >/dev/null 2>&1; then

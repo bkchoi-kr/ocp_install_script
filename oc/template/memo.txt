@@ -1,0 +1,3 @@
+echo -n 'username:password' | base64 -w0
+
+"auths":{"cloud.openshift.com":{"auth":"$$$$$$$$$$$$$$","email":"example@example.ex"}}

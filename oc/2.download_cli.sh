@@ -51,14 +51,15 @@ rm -rf $WORKDIR/$OCP_RELEASE/README.md
 
 	if [ "$current_user" != "root" ]; then
 
-	# copy cli to /usr/local/bin
-	mkdir -p ~/.local/bin
-	cp -av $WORKDIR/$OCP_RELEASE/oc $WORKDIR/$OCP_RELEASE/openshift-install $WORKDIR/$OCP_RELEASE/kubectl $WORKDIR/$OCP_RELEASE/oc-mirror ~/.local/bin
-
-
 	# butane
 	wget https://mirror.openshift.com/pub/openshift-v4/clients/butane/latest/butane -O $WORKDIR/$OCP_RELEASE/butane
 	chmod u+x $WORKDIR/$OCP_RELEASE/butane
+
+	# copy cli to $PATH
+	mkdir -p ~/.local/bin
+	cp -av $WORKDIR/$OCP_RELEASE/oc $WORKDIR/$OCP_RELEASE/openshift-install $WORKDIR/$OCP_RELEASE/kubectl $WORKDIR/$OCP_RELEASE/oc-mirror $WORKDIR/$OCP_RELEASE/butane ~/.local/bin
+
+
 
 
 	chmod u+x ~/.local/bin/oc-mirror
@@ -67,13 +68,15 @@ rm -rf $WORKDIR/$OCP_RELEASE/README.md
 
 	fi
 
-# copy cli to /usr/local/bin
-cp -av $WORKDIR/$OCP_RELEASE/oc $WORKDIR/$OCP_RELEASE/openshift-install $WORKDIR/$OCP_RELEASE/kubectl $WORKDIR/$OCP_RELEASE/oc-mirror /usr/local/bin/
-
-
 # butane
 wget https://mirror.openshift.com/pub/openshift-v4/clients/butane/latest/butane -O $WORKDIR/$OCP_RELEASE/butane
 chmod u+x $WORKDIR/$OCP_RELEASE/butane
+
+# copy cli to /usr/local/bin
+cp -av $WORKDIR/$OCP_RELEASE/oc $WORKDIR/$OCP_RELEASE/openshift-install $WORKDIR/$OCP_RELEASE/kubectl $WORKDIR/$OCP_RELEASE/oc-mirror $WORKDIR/$OCP_RELEASE/butane /usr/local/bin/
+
+
+
 
 
 chmod u+x /usr/local/bin/oc-mirror

@@ -24,7 +24,7 @@ files=( template/*.bu )
 # template/*.bu -> template/*.yaml use butane command
 for file in "${files[@]}"
 do
-  $OCP_RELEASE/butane $file -o "${file%%.*}.yaml"
+  butane $file -o "${file%%.*}.yaml"
 done
 
 cp -v template/*.yaml install_dir/openshift/

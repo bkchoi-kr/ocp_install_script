@@ -1,15 +1,13 @@
 #!/bin/bash
 
-. ../bastion/env.sh
-
 . env.sh
 
 # check oc command is exist
-if command -v oc >/dev/null 2>&1; then
-        echo "oc command is exists."
+if command -v oc-mirror >/dev/null 2>&1; then
+	echo "oc-mirror command is exists."
 else
-        echo "oc command is not exists!"
-        exit 1
+	echo "oc-mirror command is not exists!"
+	exit 1
 fi
 
 if [ ! -f pull-secret-private.json ]; then
@@ -20,10 +18,11 @@ fi
 
 # Push OCP Cluster Operator Container Image to Registry
 
-echo "CHANGEME"
-# oc-mirror --from mirror_seq1_000000.tar docker://container-registry.kcbcore.com:5000/okd4
 
+if [ -d "mirror-release" ]; then
+  oc-mirror --from ./mirror-release docker://container-registry.kcbcore.com/okd4
+fi
 
-#oc-mirror list operators --catalog=registry.redhat.io/redhat/redhat-operator-index:v4.14
-
-echo "CHANGEME"
+if [ -d "mirror-operator" ]; then
+  oc-mirror --from ./mirror-operator docker://container-registry.kcbcore.com/operator
+fi
