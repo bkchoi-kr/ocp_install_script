@@ -61,8 +61,8 @@ additionalTrustBundle: |
   -----END CERTIFICATE-----
 imageContentSources:
 - mirrors:
-  - bastion.okd4.kcb.home:5000/okd4/release
+  - container-registry.kcbcore.com/okd4/openshift/release-images
   source: quay.io/openshift/okd
 - mirrors:
-  - bastion.okd4.kcb.home:5000/okd4/release
+  - container-registry.kcbcore.com/okd4/openshift/release
   source: quay.io/openshift/okd-content

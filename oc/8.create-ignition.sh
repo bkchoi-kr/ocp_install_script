@@ -15,6 +15,6 @@ fi
 openshift-install create ignition-configs --dir=$WORKDIR/install_dir/
 
 cp -v $WORKDIR/install_dir/*.ign /var/www/html/
-chown apache. -R /var/www/html
+chmod 644 -R /var/www/html
 
 
