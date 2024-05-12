@@ -1,0 +1,18 @@
+apiVersion: mirror.openshift.io/v1alpha2
+kind: ImageSetConfiguration
+storageConfig:
+mirror:
+  operators:
+    - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.14
+      packages:
+        - name: cluster-logging
+          defaultChannel: stable-5.7
+          channels:
+          - name: stable-5.7
+        - name: elasticsearch-operator
+          defaultChannel: stable-5.7
+          channels:
+          - name: stable-5.7
+        - name: openshift-gitops-operator
+          channels:
+          - name: latest

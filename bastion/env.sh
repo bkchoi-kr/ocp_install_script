@@ -19,13 +19,13 @@ SRC_REGISTRY_PORT=443
 
 # Environment for DNS, haproxy
 ## Bastion IP
-BA_IP=192.168.70.12
+BA_IP=192.168.70.140
 ## Bootstrap Node IP
-BS_IP=.10.10.70.126
+BS_IP=10.10.70.136
 ## Master Node IPs
-M_IP=(10.10.70.121 10.10.70.122 10.10.70.123)
+M_IP=(10.10.70.131 10.10.70.132 10.10.70.133)
 ## Worker Node IPs
-W_IP=(10.10.70.124 10.10.70.125)
+W_IP=(10.10.70.134 10.10.70.135)
 ## SNO installation?
 SNO=false
 

@@ -3,10 +3,10 @@
 . ../bastion/env.sh
 . env.sh
 
-if command -v oc >/dev/null 2>&1; then
-	echo "oc command is exists."
+if command -v oc-mirror >/dev/null 2>&1; then
+	echo "oc-mirror command is exists."
 else
-	echo "oc command is not exists!"
+	echo "oc-mirror command is not exists!"
 	exit 1
 fi
 
@@ -16,23 +16,22 @@ if [ ! -f redhat-pullsecret.json ]; then
 	exit 1
 fi
 
-yes|cp redhat-pullsecret.json /run/user/$(id -u)/containers/auth.json
+if [ ! -f mirror-config-release.yaml ]; then
+        echo "mirror-config-release.yaml not found.. example -> template/mirror-config-release.yaml_ori"
+	exit 1
+fi
 
-podman login -u ${SRC_REGISTRY_ID} -p ${SRC_REGISTRY_PASS} ${SRC_REGISTRY}:${SRC_REGISTRY_PORT}
+if [ ! -f mirror-config-operator.yaml ]; then
+        echo "mirror-config-operator.yaml not found.. example -> template/mirror-config-operator.yaml_ori"
+	exit 1
+fi
+
 
 mkdir ~/.docker
-cp /run/user/$(id -u)/containers/auth.json ~/.docker/config.json
-
-cat /run/user/$(id -u)/containers/auth.json |jq -c > pull-secret-private.json
+yes|cp redhat-pullsecret.json ~/.docker/config.json
 
 
-# if OCP
-if [ "$RELEASE_NAME" == "ocp-release" ]; then
+oc-mirror --config=./mirror-config-release.yaml file://mirror-release
 
-	oc-mirror --config=./mirror-config.yaml file://mirror
 
-# if okd	
-elif [ "$RELEASE_NAME" == "okd" ]; then 
-
-	oc-mirror --config=./mirror-config.yaml file://mirror
-fi
+oc-mirror --config=./mirror-config-operator.yaml file://mirror-operator
