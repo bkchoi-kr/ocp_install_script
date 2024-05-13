@@ -114,7 +114,10 @@ mkdir -p $SRC_REGISTRY_BASE/postgres-quay
 setfacl -m u:26:rwx $SRC_REGISTRY_BASE/postgres-quay
 podman unshare chown 26:26 $SRC_REGISTRY_BASE/postgres-quay
 podman run -d --name postgresql-quay -e POSTGRESQL_USER=user -e POSTGRESQL_PASSWORD=pass -e POSTGRESQL_DATABASE=quay -p  5432:5432 -e PGDATA=/var/lib/pgsql/pgdata -v $SRC_REGISTRY_BASE/postgres-quay:/var/lib/pgsql/pgdata:Z registry.redhat.io/rhel8/postgresql-10:1-205.1675799491
-podman exec -it postgresql-quay /bin/bash -c 'echo "CREATE EXTENSION IF NOT EXISTS pg_trgm" | psql -d quay -U user'
+
+sleep 10
+
+podman exec -it postgresql-quay /bin/bash -c 'echo "CREATE EXTENSION IF NOT EXISTS pg_trgm" | psql -d quay -U user' CREATE EXTENSION
 
 
 podman run -d --name redis -p 6379:6379 -e REDIS_PASSWORD=pass registry.redhat.io/rhel8/redis-6:1-102.1675799509
@@ -122,7 +125,7 @@ podman run -d --name redis -p 6379:6379 -e REDIS_PASSWORD=pass registry.redhat.i
 
 mkdir $SRC_REGISTRY_BASE/storage
 setfacl -m u:1001:rwx $SRC_REGISTRY_BASE/storage
-mkdir $SRC_REGISTRY_BASE/config/extra_ca_certs
+mkdir -p $SRC_REGISTRY_BASE/config/extra_ca_certs
 
 cp $SRC_REGISTRY_BASE/certs/rootCA.crt $SRC_REGISTRY_BASE/config/extra_ca_certs/
 cp $SRC_REGISTRY_BASE/certs/fullchain-registry.crt $SRC_REGISTRY_BASE/config/ssl.cert
@@ -230,7 +233,7 @@ USER_RECOVERY_TOKEN_LIFETIME: 30m
 USERFILES_LOCATION: default
 EOF
 
-chmod a+x -R $SRC_REGISTRY_BASE/config
+chmod a+rx -R $SRC_REGISTRY_BASE/config
 
 
 podman run -p 443:8443 --name=quay -v $SRC_REGISTRY_BASE/config:/conf/stack:Z -v $SRC_REGISTRY_BASE/storage:/datastorage:Z -d quay.io/projectquay/quay:3.8.2

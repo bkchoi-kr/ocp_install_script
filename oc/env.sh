@@ -4,7 +4,7 @@
 # WORKING Directory
 WORKDIR=$(pwd)
 # OCP Release
-OCP_RELEASE=4.11.0-0.okd-2023-01-14-152430
+OCP_RELEASE=4.14.0-0.okd-2024-01-06-084517
 #OCP_RELEASE=4.12.0-0.okd-2023-04-16-041331
 # local container registry
 LOCAL_REGISTRY='bastion.okd4.kcb.home:5000'
